@@ -4,4 +4,4 @@
 
 ![](https://img.shields.io/badge/Vers.-1.0-blue)
 
-Repositorio para...
+Repositorio para la enseñanza
