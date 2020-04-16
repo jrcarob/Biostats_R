@@ -1392,21 +1392,5 @@ https://github.com/jrcarob
 
 ]
 
-.pull-left[
-
-## Contacto:
-
-Email: z52cabaj@uco.es
-
-Dpto. Estadística, Econometría e Investigación Operativa.
-
-Edificio Albert Einstein, 2º Planta (despacho al final del pasillo)
-
-
-## Más info:
-
-https://github.com/jrcarob
-]
-
 
 
