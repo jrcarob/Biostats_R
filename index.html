@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>  Introducción a R Aplicado a la Bioestadística</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="José Rafael Caro Barrera" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# <img src="uco_0.png" /><br/> Introducción a R Aplicado a la Bioestadística
+## 1er Curso - Grado de Química <br/><a href="https://github.com/jrcarob" class="uri">https://github.com/jrcarob</a>
+### José Rafael Caro Barrera
+### 2º Cuatrimestre 2019/2020
+
+---
+
+
+
+
+# Outline
+
+## 1.Repaso del Uso Básico y de las Principales Funciones.
+
+## 2. Trabajar con ficheros externos: Lectura y manejo.
+
+## 3. Estadística Descriptiva
+
+## 4. Tipos de Gráficos
+
+## 5. Probabilidad
+
+## 6. Inferencia Estadística
+
+---
+
+## Repaso del Uso Básico y de las Principales Funciones.
+
+## Trabajar con ficheros externos: Lectura y manejo.
+
+## Estadística Descriptiva
+
+
+---
+
+class: inverse, left, middle
+
+
+# 1. Repaso del Uso Básico y de las Principales Funciones.
+
+# Repaso del Uso Básico y de las Principales Funciones.
+
+---
+
+# Repaso del Uso Básico y Principales Funciones.
+
+`getwd()` # Comprobación del directorio de trabajo.
+
+`setwd("/directorio/directorio/midirectorio")` # Fijar o cambiar el directorio de trabajo marcando la ruta.
+
+`help(summary)` # Consultar la ayuda referente a 'Distribuciones'.
+
+`?summary` # Forma abreviada de consultar la ayuda referente a 'Distribuciones' .
+
+`help.search('regression')` # Consultar la ayuda referente a 'regression'.
+
+`??regression` # Buscar la string 'Distributions' la info de ayuda.
+
+`apropos('plot')` # Buscar funciones que contengan la palabra 'plot' en su nombre.
+
+`library(help = 'stats')` # Consultar la ayuda del paquete 'stats'.
+
+`ls()` # Listar en pantalla todas las variables existentes en ese momento.
+
+`rm(nombrevariable)` # Eliminar la variable 'nombrevariable'.
+
+`remove(nombrevariable)` # Otra forma de eliminar la variable 'nombrevariable'.
+
+---
+
+# Repaso del Uso Básico y Principales Funciones (cont.)
+
+`rm(list = ls())` # Eliminar todas las variables existentes.
+
+`length(nombrevector)` # Longitud del vector.
+
+`dim(nombre)` # Proporciona las dimensiones del objeto.
+
+`x &lt;- c(1,2,3,4,5)` # Creación de un vector con los cinco números. 
+
+`matriz &lt;- matrix(c(1,2,3,4,5,6,7,8,9),3,3)` # Creación de una matriz.
+
+`a:b` # Genera la secuencia desde a hasta b.
+
+`seq()` # Genera secuencias de números.
+
+`rep()` # Repetir números, cadenas, etc...
+
+`max()` # Identifica el máximo.
+
+`min()` # Identifica el mínimo.
+
+`sum()` # Sumar elementos.
+
+---
+
+class: inverse, left, middle
+
+# Trabajar con ficheros externos: Lectura y manejo.
+
+---
+
+# Trabajar con ficheros externos: Lectura y manejo
+
+R puede leer ficheros de texto (.txt), separados por comas (.csv) y de excel (.xls). Para estos últimos necesitaremos descargar una librería que contenga la(s) función(es) habilitadas. También puede importarlos desde SPSS, Stat, Stata, Matlab, etc...
+
+**`read.table`** el archivo *EDADCI.txt* contiene datos separados por tabulador. Para leerlo:
+
+`datos &lt;- read.table("EDADCI.txt", header = T, sep "")`
+
+
+.pull-left[
+
+**header**: le dice a **R** que la primera fila tiene el nombre de las variables (T=true o F=false).
+
+**sep**: sirve para indicar el separador de columnas. En este caso es con espacios.
+
+**fill**: sirve para rellenar con N/A (not applicable) los elementos que faltan.
+]
+
+.pull-right[
+
+**`datos`** # para verlos en pantalla
+
+`tabla &lt;- table(datos$Edad)` # muestra cada valor con su frecuencia absoluta
+
+**`tabla`** # para ver la tabla en pantalla
+
+**`prop.table(tabla)`** # muestra la frecuencia relativa
+
+**`tabla &lt;- as.data.frame(table(datos$Edad))`** # Muestra la tabla de frecuencias
+
+]
+
+---
+
+# Trabajar con ficheros externos: Lectura y manejo (cont.)
+
+Como resultado obtendremos los datos en una tabla:
+
+```
+    Var1     Freq
+1  10,100    7
+2   10,83    5
+3   10,84    3
+4  11,100    3
+5  11,101    1
+6  11,102    5
+7   11,84    5
+8   11,86    5
+9  12,105    3
+10 15,102    4
+...
+
+```
+
+`agua1 &lt;- read.table("Agua1.txt", header = TRUE, nrows = 12, sep = "\t")` # la orden **`sep="\t"`** le indica a R que el separador de columnas es mediante un tabulador y **`nrows=12`** que el archivo tiene 12 filas.
+
+`agua1 &lt;- read.table("Agua1.txt", header = TRUE, fill = TRUE, nrows = 12, sep = "\t")`
+
+`agua2 &lt;- read.table("Agua2.txt", header = TRUE, sep = "")`
+
+---
+
+# Trabajar con ficheros externos: Lectura y manejo (cont.)
+
+.pull-left[
+
+`agua1` # devuelve la siguiente tabla
+```
+Comunidad Superfi   Subte Otras   TOTAL
+1       Andalucia 2975172 1142852 38150 4156174
+2          Aragon 2816759  131632  4721 2953112
+3    CastillaLeon 2280685  421712  8123 2710520
+4  CastillaMancha  635622  992150 12225 1639997
+5        Cataluña 1557620  109530 15160 1682310
+6        Valencia 1238180  355720 82540 1676440
+7     Extremadura 1824025  201122     0 2025147
+8          Murcia  292115  282322 62160  636597
+9         Navarra  704180   15650     0  719830
+10        RiojaLa  291620   25090     0  316710
+11          Resto  176120  170252 47180  393552
+```
+]
+
+.pull-right[
+
+`agua2` # devuelve la siguiente tabla:
+
+```
+        Agua     Sodio
+1  2.0687215  8.816257
+2  3.8493030  7.751528
+3  2.1877356  5.317316
+4  0.1044470 -1.159645
+5  1.3910252  6.911816
+6  2.4097583  8.530670
+7  1.1861966  2.721694
+8  0.2531101  2.839443
+9  0.3631431  1.184841
+10 0.5384725  3.709963
+```
+]
+
+Si las columnas están separadas por comas, podemos usar el comando **`read.csv`**
+
+`agua3 &lt;- read.csv("Agua3.csv", header = TRUE)`
+
+---
+
+# Trabajar con ficheros externos: Lectura y manejo (cont.)
+
+.pull-left[
+`agua3` # devuelve lo siguiente:
+
+```
+        Grosor  Diametro
+1  0.004755556  7.612825
+2  0.003022222  5.852636
+3  0.004888889  6.879084
+4  0.025422222 16.469317
+5  0.022711111 15.770959
+6  0.018666667 13.600869
+7  0.036400000 19.772069
+8  0.011377778 11.080295
+9  0.012311111 10.697949
+10 0.005644444  7.800000
+11 0.016177778 13.086831
+12 0.013866667 12.677355
+13 0.007377778  8.771404
+14 0.009200000 11.133408
+15 0.047644444 23.399889
+16 0.019555556 15.251674
+17 0.027555556 16.637183
+18 0.028400000 16.185287
+```
+]
+
+.pull-right[
+La forma más cómoda de introducir datos en R procedentes de una hoja de cálculo, bien sea de Excel o de Calc de LibreOffice, es guardar la hoja como un fichero separado por comas y usar el anterior mandato `read.csv` Para ello el fichero de tipo .xls (Excel) o .ods (Calc de LibreOffice) deben ser
+abiertos y guardados ”como“ fichero de tipo **CSV**
+
+Abrir el fichero **PobMunCordoba.xls** (con Excel o con Calc) y guardarlo como **padronmunicipalcordoba.csv**. A continuación, leerlo:
+
+`PobMuniciCordoba&lt;-read.table("padronmunicipalcordoba.csv", header=T, sep=",")`
+
+]
+
+---
+
+class: inverse, left, middle
+
+# Estadística Descriptiva.
+
+---
+
+# Estadística Descriptiva
+
+## **Repaso conceptos teóricos básicos**:
+
+### Medidas de centralización: media, mediana, moda
+
+### Medidas de dispersión: varianza, desviación típica, cuasi-varianza, cuasi-desviación típica, rango
+
+### Medidas de posición: cuantiles (cuartiles, deciles y percentiles)
+
+### Medidas de forma: asimetría y curtosis
+
+---
+
+# Estadística Descriptiva (cont.)
+
+Importamos el archivo en excel **Datos.xls**. Existen dos formas: mediante una librería (o paquete) para leer archivos excel `readxl` o mediante el asistente de R-Studio.
+
+&lt;video width="640" height="480" controls = "controls"&gt;
+  &lt;source src="datos.mp4" type="video/mp4" markdown = "0"&gt;
+&lt;/video&gt;
+
+---
+
+Una vez leídos y almacenados los datos queremos ver qué cotienen:
+
+`head(Datos)`
+
+```
+# A tibble: 36 x 3
+    Var1  Var2 Var3 
+   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+ 1     5     2 9    
+ 2     6    13 8    
+ 3     4     4 6    
+ 4     6     7 6    
+ 5     0     2 8    
+ 6     0    19 10   
+ 7     7     4 5    
+ 8     4    12 9    
+ 9     7     3 9    
+# … with 27 more rows
+```
+y a continuación, asignarle una nueva variable
+
+`temp &lt;- Datos`
+
+Y ya podremos calcular los estadísticos que deseemos.
+
+---
+
+# Estadística Descriptiva: Medidas de centralización
+
+## Media **`mean()`**
+
+`mean(temp$Var1)` # para la variable 1 se le antecede del nombre del fichero y el símbolo $
+```
+[1] 4.888889
+
+```
+
+`attach(temp)` # para  evitar escribir toda la secuencia anterior
+
+`mean(Var1)` # nótese que no se le ha asignado ningún nombre a la media, solo la hemos calculado.
+
+`M1 &lt;- mean(temp$Var1)`
+
+`mean(temp$Var2)`
+
+`mean(temp$Var3, na.rm = T)` # **na.rm** (**n**ot**a**llowed.**r**e**m**ove) que indica que se debe prescindir de los datos no disponibles NA. Una posibilidad es que este comando no funcione porque los datos no son numéricos, por lo que habría que modificar el tipo.
+
+`temp$Var3 &lt;-as.numeric(as.character(temp$Var3))` # Con la orden **as.numeric(as.character())** cambiamos el tipo de datos de 'caracter' a 'numérico' y ya podremos leer nuestros datos.
+
+---
+
+# Estadística Descriptiva: Medidas de centralización
+
+No hay que olvidar que si queremos guardar alguna de las medias calculadas, hay que asignarle un nombre.
+
+`M1 &lt;- mean(temp$Var1)` 
+
+`M2 &lt;- mean(temp$Var2)` 
+
+`M3 &lt;- mean(temp$Var3, na.rm = T)`
+
+---
+
+# Estadística Descriptiva: Medidas de centralización
+
+## Mediana **`median()`**
+
+`median(temp$Var1)`
+``` 
+[1] 6
+```
+
+`medianaVar1 &lt;- median(temp$Var1)` # Le asignamos un nombre para guardarla
+
+`medianaVar3 &lt;- median(temp$Var3, na.rm = T)` # No olvidar el argumento 'na.rm' si tiene datos NA
+
+## Moda 
+
+No hay un mandato específico en R para calcular la Moda. Se puede hacer usando los mandatos **`table`** y **`which.max`**. Supongamos que queremos obtener la moda de este conjunto de edades de personas:
+
+[22; 69; 66; 67; 23; 24; 26; 27; 28; 22; 29; 29; 29; 31; 33; 34; 35; 35; 35; 36; 38; 39; 42; 44; 29; 44; 45; 45; 45; 47; 29; 48; 52; 59]
+
+`edad &lt;- c(22,69,66,67,23,24,26,27,28,22,29,29,29,31,33,34,35,35,35,36,38,39,42,44,44,45,45,45,47,48,52,59)`
+
+`edad` # para mostrar lo que hemos hecho. Recordar que queda registrada la variable creada en el global enviroment
+
+---
+
+# Estadística Descriptiva: Medidas de centralización
+
+`tabla &lt;- table(edad)` # nos da una tabla con la frecuencia de cada dato
+
+
+```r
+which.max(tabla) # da el valor de mayor frecuencia y su posición
+29 
+7
+```
+
+
+```r
+tabla[which.max(tabla)] # devuelve de la tabla el antes seleccionado y su frecuencia
+29
+3
+```
+
+Otra forma de hacerlo es definiendo una función. Para **crear una función** se debe proceder:
+
+`nombre_de_la_funcion &lt;- function(argumentos){`
+
+`# abrir paréntesis para introducir los mandatos que hace la función`
+
+`} # se cierra el paréntesis final de la definición de la función`
+
+---
+
+# Estadística Descriptiva: Medidas de centralización
+
+En nuestro caso:
+
+
+```r
+moda&lt;-function(var){
+frec.var&lt;-table(var)
+valor&lt;-which(frec.var==max(frec.var)) # Elementos
+names(valor)
+}
+```
+
+Otra forma (la más cómoda) es mediante la instalación de un paquete que lo haga.
+
+## **Instalación de paquetes**
+
+R se caracteriza por tener una importante cantidad de librerías o paquetes disponibles en los denominados "repositorios" (sitios web de libre acceso). Un paquete es un conjunto de funciones y datos que ejecutados convenientemente permiten calcular casi cualquier cosa.
+
+`install.packages("modeest")` # instala el paquete 'modeest'
+
+`library(modeest)` # lo carga
+
+`mfv(edad)` # con el comando 'mfv' se calcula la moda
+
+---
+
+# Estadística Descriptiva: Medidas de dispersión
+
+## **Conviene recordar los conceptos teóricos de**:
+
+.pull-left[
+
+### - Varianza:
+
+`\(\LARGE{S^{2}(x)=\frac{\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}{n}}\)`
+
+### - Desviación típica:
+
+`\(\LARGE{S(x)=\sqrt\frac{\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}{n}}\)`
+
+
+]
+
+.pull-right[
+
+### - Cuasi-Varianza:
+
+`\(\LARGE{S(x)=\frac{\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}{n-1}}\)`
+
+### - Cuasi-Desviación típica:
+
+`\(\LARGE{S(x)=\sqrt\frac{\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}{n-1}}\)`
+
+]
+
+### - Rango:
+
+### Es la diferencia entre el mayor y el menor valor
+
+---
+
+# Estadística Descriptiva: Medidas de dispersión (cont.)
+
+## Varianza **`var()`** y Cuasi-varianza
+
+No hay un mandato para calcular la varianza, el dato que nos proporciona R es el de la **cuasi-varianza** cuando usamos el comando **`var()`**
+
+`cuasivar1 &lt;- var(temp$Var1)`
+
+`[1] 6.95873`
+
+¿Cómo proceder si queremos calcular la **varianza** propiamente dicha? Si recordamos la relación entre varianza y cuasi-varianza, teníamos:
+
+`$$Varianza = \frac{n-1}{n}Cuasi-varianza$$`
+Por lo tanto aplicaríamos la siguiente expresión:
+
+`Varianza1 &lt;- var(temp$Var1)*(length(temp$Var1)-1)/length(temp$Var1)`
+
+`[1] 6.765432`
+
+No hay que olvidar que para la **variable 3** hay que seguir poniendo `na.rm = T`.
+
+---
+
+# Estadística Descriptiva: Medidas de dispersión (cont.)
+
+## Desviación Típica **`sd()`** y Cuasi-desviación Típica
+
+Con la **desviación típica** ocurre lo mismo. Es decir, con el comando **`sd()`**, R nos da la **cuasi-desviación típica**.
+
+`cuasidesv2 &lt;- sd(temp$Var2)`
+
+`[1] 6.025541`
+
+`cuasidesv3 &lt;- sd(temp$Var3, na.rm = T)`
+
+`[1] 2.805568`
+
+Por lo que para calcular la **desviación típica** volvemos a usar la relación entre desviación típica y cuasi-desviación típica
+
+`Desvtip2 &lt;- sd(temp$Var2)*(length(temp$Var2)-1)/length(temp$Var2)`
+
+`[1] 5.858165`
+
+---
+
+# Estadística Descriptiva: Medidas de dispersión (cont.)
+
+## Rango **`range()`** 
+
+`range(temp$Var1)`# El comando **`range()`** nos devuelve dos valores
+
+`[1] 0 9`
+
+Por lo tanto para la diferencia entre esos dos valores:
+
+`rangovar1&lt;-range(temp$Var1)[2]-range(temp$Var1)[1]`
+
+`rangovar1`
+
+`[1] 9`
+
+También se puede hacer con los comandos `max` y `min` que devuelve, respectivamente el mayor y el menos de los elementos.
+
+`rangovar1&lt;-max(temp$Var1)-min(temp$Var1)`
+
+---
+
+# Estadística Descriptiva: Medidas de posición.
+
+## Cuantiles **`quantile()`** 
+
+La expresión 
+
+`quantile(temp$Var2)`
+
+Por defecto, da Q1, Q2, Q3. Vamos a retocar sus argumentos para obtener los percentiles:
+
+`quantile(temp$Var2,seq(0,1,by=0.1))`
+
+Podemos buscar el percentil 32%
+
+`quantile(temp$Var2,0.32)`
+
+No olvidar que si hay datos NA ... Por ejemplo, el caso de la variable Var3
+
+`cuartilesdeVar3&lt;-quantile(temp$Var3,na.rm=T)`
+
+---
+
+# Estadística Descriptiva: Medidas de posición (cont.)
+
+Si ponemos el comando `summary`
+
+`summary(temp,na.rm=T)`
+
+Observad que se puede aplicar a TODAS las variables cargadas con el fichero `temp`. Por supuesto también
+se puede aplicar sobre cada una de ellas:
+
+`summary(temp$Var3,na.rm=T)`
+
+---
+
+# Estadística Descriptiva: Medidas de forma.
+
+## Asimetría **`skewness()`**  y Curtosis **`kurtosis()`**
+
+La asimetría y la curtosis (apuntamiento) no están implantadas en la base R, por lo que habría que descargar un paquete o librería para su cálculo. Desde el asistente es muy fácil, aunque otra opción sería:
+
+`install.packages(e1071,dependencies=T)` # **`dependencies`** es `True` para que instale automáticamente otros paquetes del cual depende
+
+Para verificar que hemos instalado correctamente el paquete, lo cargamos, ya que para usarlo no basta solo con instalarlo. Hay que cargarlo mediante:
+
+`library(e1701)` # Para saber qué contiene bastaría con ejecutar `help(e1701)`
+
+A continuación, con los comandos 
+
+`skewness(temp$Var1)`
+
+`kurtosis(temp$Var1)`
+
+obtenemos estos dos estadísticos descriptivos de la forma de las variables de la distribución que estamos estudiando.
+
+---
+
+# Estadística Descriptiva: Medidas de forma.
+
+## Coeficiente de variación
+
+Para un conjunto de datos X se denomina coeficiente de variación de ellos a 
+`$$CV=\frac{S}{\bar{X}}$$`
+Se trata de medir la desviación típica en unidades de la media. Su
+utilidad estriba en ello. Por lo que es aconsejable para comparar la dispersión de dos
+conjuntos de datos cuya media es muy diferente, por la naturaleza de los datos.
+
+`x &lt;- c(49887, 49956, 50040, 50062, 49736, 49702, 50012, 50063, 50188, 50207)` # datos de pesos de vigas de hierro en gramos
+
+`CVx &lt;- sqrt(mean((x-mean(x))^2))/mean(x)`
+
+`CVx`
+
+**Practicar y obtener el CV**
+
+`y &lt;- c(5, 7, 11, 8, 12, 8, 10, 17, 8, 5)` # datos relativos de pesos de mini losetas en gramos.
+
+---
+
+class: inverse, left, middle
+
+# Gráficos
+
+---
+
+# Representaciones gráficas con R
+
+Un aspecto importante en el análisis estadístico de datos es la realización de gráficos. Las capacidades gráficas de R son muy potentes pues dispone de una amplia gama de variedades para representar datos. Aquí solo veremos los gráficos básicos que vienen en la base de R. Algunos de los gráficos más usuales pueden generarse a partir de básicas tales como:
+
+`plot()` Función genérica para representar en el plano xy puntos, líneas, etc.
+
+`abline()` Función que añade una o más líneas rectas.
+
+`barplot()` Diagramas de barras.
+
+`pie()` Diagramas de sectores.
+
+`hist()` Histogramas.
+
+`boxplot()` Diagramas de box-and-whisker.
+
+`stripplot()` Similares a boxplot( ) con puntos.
+
+`sunflowerplot()` Representación en el plano xy de diagramas de girasol.
+
+`qqnor()` Diagramas de cuantil a cuantil frente a la distribución normal.
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+`qqplot()` Diagramas de cuantil a cuantil de dos muestras.
+
+`qqline()` Representa la línea que pasa por el primer y el tercer cuartil.
+
+Para crear gráficos más completos existen las siguientes funciones:
+
+`lines()` Añade líneas a un gráfico.
+
+`points()` Añade puntos a un gráfico.
+
+`segments()` Añade segmentos a un gráfico.
+
+`arrows()` Añade flechas a un gráfico.
+
+`polygons()` Añade polígonos a un gráfico.
+
+`rect()` Añade rectángulos a un gráfico.
+
+`abline()` Añade una recta de pendiente e intersección dada.
+
+`curve()` Representa una función dada.
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+## Función **`plot`**
+
+**Ejemplo:** para representar las coordenadas de puntos (3; 2); (5; 3); (1; 2); (-4; 0)
+(0; 1); (1; 3); (2;-1)
+
+`a&lt;-c(3,5,1,-4,0,1,2)`
+
+`b&lt;-c(2,3,2,0,1,3,-1)`
+
+`plot(a,b)`
+
+**Ejemplo:** Dibujar los puntos elegidos de una parábola. Por ejemplo de la parábola `$$y = x^{2}- 3x-1$$` dibujar sus puntos de abscisas 2, 3, 5, 5.5, 6, 6.7, 7
+
+`x&lt;-c(2,3,5,5.5,6,6.7,7)`
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+.pull-left[
+
+```r
+x&lt;-c(2,3,5,5.5,6,6.7,7)
+y &lt;- x^2-3*x-1
+plot(x,y) # Por defecto nos dibuja los puntos
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+plot(x,y, type = "o", col = "blue") # Con la opción `type` y `col` trazamos una línea y cambiamos el color
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Representaciones gráficas con R (continuación)
+
+.pull-left[
+
+```r
+x&lt;-seq(-10,10)
+x
+```
+
+```
+##  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
+## [20]   9  10
+```
+]
+
+.pull-right[
+
+
+```r
+plot(x,x,xlim=c(0,10),ylim=c(0,10))
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+--- 
+
+# Representaciones gráficas con R (continuación)
+
+
+```r
+plot(1:100,(1:100)^2,type="l")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Representaciones gráficas con R (continuación)
+
+## Función **`curve`**
+
+.pull-left[
+
+```r
+curve(expr=cos, from=-3*pi, to=3*pi) # el argumento `expr`puede ser como se expresa una función
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+curve(x^4-x^2, -3,3)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+## Diagramas de barras **`barplot`**
+
+.pull-left[
+
+Ejemplo fácil, supongamos que hemos recogido unos datos que hemos codificado con escalas del 1 al 4. Queremos hacer un diagrama de barras con los resultados para cada una de los valores de las variables.
+
+
+```r
+x&lt;-c(1,2,3,1,2,1,2,4,1,3,2,4,1,2,3,1,2,4,2,1)
+# Calculamos la frecuencia acumulada de cada una de las variables
+table(x)
+```
+
+```
+## x
+## 1 2 3 4 
+## 7 7 3 3
+```
+
+```r
+frec.x&lt;-table(x)
+# Creamos el diagrama de barras con las leyendas
+```
+]
+
+.pull-right[
+
+```r
+barplot(frec.x, main="Frecuencia relativa", xlab="Valores de la variable")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+
+```r
+barplot(VADeaths, beside=TRUE, ylim=c(0,90),
+        ylab="Defunciones por 1000", main="Indices Mortalidad en Virginia")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+## Diagramas de sectores **`pie`**
+
+.pull-left[
+En este diagrama se representa cada modalidad por un sector circular, cuyo ángulo central y, por lo tanto también el área de dicho sector es proporcional a la frecuencia de la modalidad
+
+
+```r
+# Diagrama de sectores simple
+muestra &lt;- c(15, 12,4, 16, 8)
+paises&lt;- c("USA", "Inglaterra", "Australia", "Alemania", "Francia")
+```
+]
+
+.pull-right[
+
+```r
+pie(muestra, labels = paises, main="Diagrama de sectores de países")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Representaciones gráficas con R (continuación)
+
+## Gráfico de caja **`boxplot`**
+
+.pull-left[
+Con la función `boxplot` se pueden crear diagramas de cajas para una o varias funciones. Es útil para mostrar las caracteristicas elementales de una muestra. Pero aún lo es mas para compararlas entre muestras distintas, en concreto para mostrar como difiere la tendencia central, la dispersión y la simetria de varias muestras de datos.
+
+
+```r
+tiempo &lt;- read.table("tiempo.txt", header = T)
+names(tiempo)
+```
+
+```
+## [1] "maxima" "minima" "lluvia" "mes"    "ano"
+```
+
+```r
+attach(tiempo) # Para poder manejarlas sin hacer referencia al dataframe
+```
+]
+
+.pull-right[
+
+```r
+boxplot(maxima)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+
+```r
+boxplot(minima)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+## Histogramas **`hist`**
+
+.pull-left[
+
+```r
+# Representamos un histograma de la variable x, con x 1000 datos normales
+x&lt;-rnorm(1000)
+```
+]
+
+.pull-right[
+
+```r
+hist(x)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+.pull-left[
+
+```r
+# creamos 13 intervalos (12 puntos de corte), de color azul y lineas rosas
+hist(x, freq = FALSE, breaks = 12, col="lightblue", border="pink")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+
+```r
+# creamos 4 intervalos (3 puntos de corte), de color azul y lineas rosas
+hist(x, freq = FALSE, breaks = 3, col="red", border="green")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+.pull-left[
+
+Podemos dibujar el histograma junto con gráfica de la normal para ver si los datos se distribuyen o no normalmente.
+
+
+```r
+x&lt;-rnorm(1000)
+```
+]
+
+.pull-right[
+
+```r
+hist(x,col="red",freq=F,xlim=c(-5,5))
+curve(dnorm(x),-5,5,add=T,col="blue")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Representaciones gráficas con R (continuación)
+
+## QQ-plot **`qqplot`**
+
+.pull-left[
+
+```r
+X&lt;-rnorm(1000)
+A&lt;-rnorm(1000)
+qqplot(X,A,main="A y X proceden de Gausiana")
+abline(0,1)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+B&lt;-rnorm(1000,mean=3,sd=2)
+qqplot(X,B,main="X y B proceden de Gausianas distintas")
+abline(0,1)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Representaciones gráficas con R (continuación)
+
+.pull-left[
+
+```r
+C &lt;- rt(1000, df = 2)
+qqplot (X, C, main = "C tiene colas suaves")
+abline(0,1)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+D &lt;- exp(rnorm(1000))
+qqplot(X, D, main = "D tiene asimetría")
+abline(0,1)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, left, middle
+
+# Probabilidad
+
+---
+
+# Variables aleatorias discretas y sus distribuciones: 
+
+## V. A. Uniforme 
+
+Una variable aleatoria discreta que toma sus valores en un conjunto finito `\(\mathcal{D}\)`, se llama uniforme y lo notaremos `\(X\rightarrow U(\mathcal{D})\)`, si su f.m.p es `$$p_{X}(x)=\frac{1}{\#(\mathcal{D})},\hspace{0.5cm} x \in\mathcal{D}$$`
+`Ejemplo:` **Estudiar la v.a. “Puntuación obtenida tras del lanzamiento de un dado equilibrado”. Indicar su soporte. Decir cual es su función masa de probabilidad y dibujarla:**
+
+
+```r
+soporte&lt;-c(1:6) #El soporte de la variable es el conjunto { 1, 2, 3, 4, 5, 6}
+
+fmp&lt;- c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6) #la fmp es la probabilidad de cada valor del soporte
+```
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.) 
+
+
+```r
+plot(soporte, fmp, xlab = "Resultados", ylab = "Probabilidad", col="red", pch = 16)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+## V. A. Bernouilli
+
+La distribución de Bernoulli (o distribución dicotómica) es una distribución de probabilidad discreta, que toma valor 1 para la probabilidad de éxito `\(p\)` y valor 0 para la probabilidad de fracaso `\(q=(1-p)\)`. Si X es una variable aleatoria que mide "número de éxitos", y se realiza un único experimento con dos posibles resultados (éxito o fracaso), se dice que la variable aleatoria X se distribuye como una Bernouilli de parámetro `\(p=\frac{1}{2}\)`: `$$X\sim Be(p)$$` y su f.m.p. vendrá dada por `$$f(x)=p^{x}(1-p)^{1-x};\hspace{0.2cm} con\ x=\{0,1\}$$`
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+
+```r
+bern&lt;-c(0,1) # 0 es cara y 1 es cruz
+# La f.m.p. es:
+fmp&lt;-c(1/2,1/2)
+# Su gráfica es:
+barplot(bern, fmp, col="red")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+## V. A. Binomial
+
+Sean `\(n\in Z^{+}\)` y `\(p\in [0,1]\)`, se dice que una v.a. es una Binomial de parámetros `\(n\)` y `\(p\)`, denotado como `\(X\rightarrow B(n,p)\)`, si su f.m.p. es
+`$$p_{X}(x)=P(X=x)=\left\{\begin{array}{ll}{\left( \begin{array}{c}{n} \\ {x}\end{array}\right) p^{x}(1-p)^{n-x},} &amp; {s i x=0,1, \ldots, n} \\ {0,} &amp; {\text { otro caso }} &amp; \end{array}\right.$$`
+
+```r
+# sea una variable aleatoria Binomial B(n=7, p=0.8)
+
+varbinom&lt;-c(0,1,2,3,4,5,6,7)
+
+fmp&lt;-c(dbinom(0,7,0.8),dbinom(1,7,0.8),dbinom(2,7,0.8), dbinom(3,7,0.8),dbinom(4,7,0.8),dbinom(5,7,0.8),
+       dbinom(6,7,0.8),dbinom(7,7,0.8))
+```
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+
+```r
+plot(varbinom ,fmp,col="green", type = "l")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
+
+```r
+# plot(varbinom, dbinom(varbinom, 7, 0.8), col="red", type = "l")
+```
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+## Simulación de una Binomial(n=10, p=0.5)
+
+.pull-left[
+
+```r
+N &lt;- 1000
+n &lt;- 10
+p &lt;- .5
+x &lt;- rbinom(N,n,p)
+```
+]
+
+.pull-right[
+
+```r
+hist(x, xlim = c(min(x), max(x)), probability = TRUE, 
+     nclass = max(x) - min(x) + 1, 
+     col = 'lightblue',
+     main = 'Binomial distribution, n=10, p=.5')
+lines(density(x, bw=1), col = 'red', lwd = 3)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+**Ejercicio:** Si nuestra clase tiene 92 alumnos, de los que 58 son mujeres. Calcular la probabilidad de que sorteando al azar 4 objetos, todos sean adjudicados a mujeres. Calcular la probabilidad de que ninguno sea adjudicado a una mujer. Dibujar la función de probabilidad de esa v.a.
+
+`Caso 1:` Supongamos que hay reemplazamiento es decir que a un alumno puede tocarle
+mas de un regalo. Se trata de una v.a. Binomial B(n=4,p=58/92). Ya que cumple las dos
+caracteristicas
+
+
+```r
+# Vector con los "n" elementos. La probabilidad ya nos la dan: 58/92=
+
+soporte &lt;- c(0, 1, 2, 3, 4)
+
+# Si nos pidiesen la probabilidad de que sorteada al azar, 4 objetos, todos sean adjudicados a mujeres, vendría dada por:
+
+dbinom(4, 4, 58/92)
+```
+
+```
+## [1] 0.1579649
+```
+
+```r
+# Si nos pidiesen la probabilidad de que ninguno sea djudicado a una mujer:
+  
+dbinom(0, 4, 58/92)
+```
+
+```
+## [1] 0.01865367
+```
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+Para su representación gráfica:
+
+
+```r
+x&lt;-soporte
+y&lt;-dbinom(x,4,58/92)
+barplot(x,y,col="red")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
+
+```r
+# plot(x,y,col="red",pch=15)
+# plot(x,y,col="red",pch=16)
+```
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+**Ejercicio:** Se sabe que la probabilidad de que un enfermo de E sobreviva a la enfermedad es 0.2 Se eligen al azar 6 de esos enfermos, calcular la probabilidad de que ninguno de ellos sobreviva a la enfermedad. 
+
+1) Calcular la probabilidad de que todos sobrevivan. 
+
+2) Calcular la probabilidad de que sobrevivan menos de 3. 
+
+3) Calcular la probabilidad de que sobrevivan más de 4.
+
+Definimos la v.a. X = "número de enfermos de los 6 que sobreviven". Sigue una ley B(n=6,
+p=0.2)
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+## V. A. Poisson
+
+La distribución de Poisson es una distribución de probabilidad discreta. Expresa la probabilidad de un
+número `\(k\)` de eventos ocurriendo en un tiempo fijo si estos eventos ocurren con una frecuencia media conocida y son independientes del tiempo discurrido desde el último evento. 
+`$$X\sim P(\lambda)$$` La función de densidad de la distribución de Poisson es `$$f(k, \lambda)=\frac{e^{-\lambda}\lambda^{k}}{k!}$$`
+
+---
+
+# Variables aleatorias discretas y sus distribuciones (cont.)
+
+.pull-left[
+
+```r
+N &lt;- 10000
+x &lt;- rpois(N, 1)
+```
+]
+
+.pull-right[
+
+```r
+hist(x, 
+     xlim=c(min(x),max(x)), probability=T, nclass=max(x)-min(x)+1, 
+     col='lightblue',
+     main='Distribución de Poisson, lambda=1')
+lines(density(x,bw=1), col='red', lwd=3)
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Variables aleatorias continuas y sus distribuciones
+
+Se han debido estudiar las siguientes distribuciones de v. a. continuas:
+
+**`Uniforme:`** `\(f(x)=\frac{1}{b-a},\hspace{0.5cm} a&lt;x&lt;b\)`
+
+**`Normal:`** `\(f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\big(\frac{x-\mu}{\sigma}\big)^{2}},\hspace{0.5cm} -\infty&lt;x&lt;\infty\)` 
+
+**`Chi-cuadrado:`** `\(f(x)=\frac{1}{2^{\frac{n}{2}} \Gamma\left(\frac{n}{2}\right)} x^{\frac{n}{2}-1} e^{\frac{n}{2}} \quad \text { para } x&gt;0, n \in Z\)`
+
+**`F-Snedecor:`** `\(F=\frac{\frac{x_{1}}{n}}{\frac{x_{2}}{m}}\)`
+
+**`t-Student:`** `\(f(x)=\frac{\Gamma\left(\frac{n+1}{2}\right)}{\Gamma\left(\frac{n}{2}\right) \sqrt{n \pi}}\left(1+\frac{x^{2}}{n}\right)^{-\frac{n+1}{2}} \quad \text { para } x \in R, n \in Z^{+}\)`
+
+---
+
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+Objetivo: manejar la Función de Densidad y la Función de Distribución.
+Para cada v.a., en R existen cuatro mandatos asociados a ella, cuyo nombre empieza por una de las letras `p`, `q`, `d`, `r` y a ellas sigue una palabra que identifica de forma única a la v.a.
+Para la v.a. Normal, `pnorm`, `qnorm`, `dnorm`, `rnorm`
+Para la v.a. t-student, `pt`, `qt`, `dt`, `rt`.
+
+La que comienza con la letra `p` d los valores de la función de distribución de la v.a.
+
+La que comienza con la letra `d` da los valores de la función de densidad de la v.a.
+
+La que comienza con la letra `q` da los valores de la función de cuantiles de la v.a.
+
+La que comienza con la letra `r` sirve para generar valores al azar que siguen esa v.a.
+
+Si se olvida quién es cada una o cuáles son sus argumentos, se puede acudir a la ayuda teclenado: `?pnorm`
+
+---
+
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+**`Caso 1:`** 
+
+Se sabe que los errores cometidos por una balanza de precisión siguen una v.a. con ley Normal de parámetros media = 2mg y sd = 0.5mg. Calcular la probabilidad de que esos errores tomen valores en el intervalo [1.9, 2.1]
+
+`Solución:` Sea X la v.a. “errores cometidos por esa balanza”, nos dicen que `\(X\rightarrow N(2; 0.5)\)` y nos piden la probabilidad `\(P(1.9 \leq X \leq 2.1)\)`; si es `\(F\)` la función de distribución de esa v.a. entonces es `\(P(1.9 \leq X \leq 2.1)=F(2.1)-F(1.9)\)` 
+
+
+```r
+pnorm(2.1, 2, 0.5) - pnorm(1.9, 2, 0.5)
+```
+
+```
+## [1] 0.1585194
+```
+---
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+**`Caso 2:`**
+
+Se sabe que el peso de la población de niños con tres años de edad es una v.a. que sigue una ley Normal de parámetros media=15,1kg y sd=0,3kg . Si consideramos que uno de esos niños es obeso en el caso de que su peso supere el cuartil tercero. ¿A partir de qué peso es un niño de esa edad obeso?
+
+`Solución:`Sea X la v.a. “peso de los niños con tres años de edad”, nos dicen que `\(X \rightarrow N(15.1, 0.3)\)` y nos piden determinar el peso a partir del cúal es un niño obeso sabiendo que el criterio es superar el tercer cuartil. Vamos por tanto a calcular Q3. Los cuantiles los proporciona la función de cuantiles, que es la inversa de la Función de Distribución. Por tanto:
+
+
+```r
+Q3 = qnorm(0.75, 15.1, 0.3)
+```
+
+en conclusión diremos que un niño, de esa población es obeso si supera los 15.30235kg.
+
+---
+
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+**`Caso 3:`**
+
+Sabemos que el consumo diario de gas de un cierto aparato sigue una v.a. con ley normal de media 1.27 litros y desviación típica 0.24 litros. Calcular el porcentaje de días que el consumo supera los 1.5 litros. ¿Cuántos litros consume como mínimo el 10% de los días de mayor consumo?
+
+`Solución:` Sea X la v.a. “consumo diario de gas de ese aparato”, nos dicen que `\(X\rightarrow N(1.27, 0.24)\)` y nos piden determinar:
+
+1) Porcentaje de días que la v.a. `\(X\)` supera a 1.5. Es decir `\(P(X\geq 1.5)\)`. Dado que la Función de Distribución nos proporciona probabilidades “menores que” es decir `\(F(a) = P(X\leq a)\)`, para calcular `\(P(X\geq1.5)\)` recurriremos a su suceso contrario `\(P(X\geq1.5) = 1-P(X&lt;1.5)\)`
+
+
+```r
+1-pnorm(1.5, 1.27, 0.24)
+```
+
+```
+## [1] 0.1689474
+```
+
+en conclusión el 16.89474% de los días.
+
+---
+
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+2) Cuántos litros consume como mínimo el 10% de los días de mayor consumo. Se trata de determinar el cuantil 90, p90, ya que a partir de él está el 10% de los de mayor consumo. Dado que los cuantiles los proporciona la función de cuantiles
+
+
+```r
+p90=qnorm(0.9,1.27,0.24)
+```
+
+en conclusión el 10% de los días de mayor consumo, consume como mínimo 1.5775 litros
+
+---
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+**`Caso 4:`**
+
+Dibujar la función de densidad de una v.a. X que sigue una ley Normal de parámetros media=3 y sd=0.4
+
+
+```r
+# Dibujaremos la N(3,0.4) desde -1 hasta 7
+x&lt;-seq(-1,7, length=200)
+plot(x,dnorm(x,3,0.4),type="l")
+# Añadir, en el mismo dibujo, la gráfica de una v.a. que sigue una ley ley Normal de parámetros media=4 y sd=2
+par(new=T) #mantiene abierta la anterior ventana gráfica
+plot(x,dnorm(x,4,2),type="l",col="red")
+# Observar que a salido “recortada” por la derecha esta última y que las leyendas del eje de ordenadas necesitan un “toque”.
+# con el mandato curve se puede dibujar directamente las densidades
+curve(dnorm(x,3,0.4),xlim=c(-1,8))
+curve(dnorm(x,4,2),xlim=c(-1,8),col="red", add=T)
+```
+
+quizás mas cómodo pero sigue sin arreglarse la leyenda del eje de ordenadas.
+
+---
+
+# Variables aleatorias continuas y sus distribuciones (cont.)
+
+**`Caso 5:`**
+
+Vamos a dibujar las funciones de densidad de varias v.a. con ley t-Student y compararlas con la de la ley Normal(0,1), para apreciar su parecido.
+
+
+```r
+# La N(0,1) es muy parecida a la t-student
+x&lt;-seq(-3,3, length=200)
+plot(x,dnorm(x),type="l")
+par(new=T)
+plot(x,dt(x,200),type="l",col="red")
+par(new=T)
+plot(x,dt(x,2),type="l",col="blue")
+# Cuanto mas grande sea n en la t-student, mas se parecen
+# Como hemos dicho antes, se puede dibujar con el comando curve
+curve(dnorm(x),xlim=c(-5,5))
+curve(dt(x,2),xlim=c(-5,5),col="blue",add=T)
+curve(dt(x,200),xlim=c(-5,5),col="red",add=T)
+```
+
+---
+
+class: inverse, left, middle
+
+# Inferencia Estadística
+
+### 1. Intervalos de confianza
+
+### 2. Teorema Central del Límite
+
+---
+
+# Inferencia estadística: Intervalos de confianza
+
+**`Ejemplo 1:`** El fichero `airquality` está dentro del paquete base de R. Es un
+dataframe que contiene 6 columnas y 154 filas. Cada columna es una muestra con
+medidas de calidad del aire tomadas en New York en 1973. De él extraemos la muestra denominada Ozone. Que contiene medidas o datos del nivel de Ozono. Vamos a suponer que esos datos proceden de una v.a. Normal, de media `\(\mu\)` desconocida y varianza conocida `\(\sigma^{2} = 1089\)`. Queremos calcular un I.C. para la media de esa v.a. con un error `\(\alpha = 0.05\)`, o también se puede decir con probabilidad 0.95
+
+.pull-left[
+
+```r
+data() # lista los ficheros de datos en el paquete base
+data(airquality) # carga el fichero de datos denominado airquality
+airquality # vemos por pantalla el ficheros
+# la primera linea contiene los nombres de los datos de cada columna
+airquality$Ozone # carga datos de la columna denominada Ozone
+# los datos codificados como NA son datos que no estan disponibles
+mean(airquality$Ozone,na.rm=TRUE) # la media de los datos
+sigma&lt;-sqrt(1089) # desviacion tipica, raiz cuadrada de la varianza
+alfa&lt;-0.05 # introducimos el valor del error
+```
+]
+
+.pull-right[
+
+```r
+n&lt;-length(airquality$Ozone) # numero de datos se obtiene con length
+# el mandtao length cuenta a los NA el mandato na.omit crea un vector sin los NA
+n&lt;-length(na.omit(airquality$Ozone))
+radio&lt;-qnorm(1-alfa/2)*sigma/sqrt(n) # el radio del intervalo
+# llamamos ExtSupIntervalo al extremo superior y ExtInfIntervalo al extremo inferior
+ExtSupIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)+radio
+ExtInfIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)-radio
+ExtInfIntervalo # para verlo
+ExtSupIntervalo # para verlo
+```
+]
+---
+
+# Inferencia estadística: Intervalos de confianza
+
+**`Ejemplo 2:`** Seguimos con los datos del ejemplo anterior. Supongamos que
+esos datos proceden de una v.a. Normal, de media `\(\mu\)` desconocida y varianza desconocida.
+Queremos calcular un I.C. para la media de esa v.a. con un error `\(\alpha = 0.07\)`,
+o también se puede decir con probabilidad 0.93
+
+
+```r
+data(airquality)
+#airquality$Ozone
+n&lt;-length(na.omit(airquality$Ozone))
+alfa&lt;-0.07
+radio&lt;-qt(1-alfa/2,n-1)*sqrt(var(airquality$Ozone, na.rm=TRUE))/sqrt(n)
+ExtSupIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)+radio
+ExtInfIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)-radio
+ExtInfIntervalo
+```
+
+```
+## [1] 36.52755
+```
+
+```r
+ExtSupIntervalo
+```
+
+```
+## [1] 47.73107
+```
+
+---
+
+# Inferencia estadística: Intervalos de confianza
+
+**`Ejemplo 3:`** Seguimos con los datos del ejemplo anterior. Supongamos que
+esos datos proceden de una v.a. de ley Desconocida, de media `\(\mu\)` desconocida y varianza desconocida. Queremos calcular un I.C. para la media de esa v.a. con un error `\(\alpha = 0.04\)`, o también se puede decir con probabilidad 0.96:
+
+
+```r
+data(airquality)
+#airquality$Ozone
+n&lt;-length(na.omit(airquality$Ozone))
+alfa&lt;-0.04
+radio&lt;-qnorm(1-alfa/2)*sqrt(var(airquality$Ozone, na.rm=TRUE))/sqrt(n)
+ExtSupIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)+radio
+ExtInfIntervalo&lt;-mean(airquality$Ozone,na.rm=TRUE)-radio
+ExtInfIntervalo
+```
+
+```
+## [1] 35.83899
+```
+
+```r
+ExtSupIntervalo
+```
+
+```
+## [1] 48.41963
+```
+
+---
+
+# Inferencia estadística: El Teorema Central del Límite
+
+Tenemos 10 variables aleatorias `\(X_{1},X_{2},...,X_{10}\ \ i.i.d.\)` con ley Uniforme `\(U(0,2)\)`. Con ellas definimos una nueva v.a. `$$Y=\frac{X_{1},X_{2},...,X_{10}}{10}$$` Sabiendo que la media de una v.a. Uniforme `\(U(0,2)\)` es `\(\mu=1\)` y su desviación típica es `\(\sigma=\sqrt{1/3}\)`, ¿qué distribución de probabilidad seguirá aproximadamente la variable aleatoria Y? Razona la respuesta. Confirmar mediante simulación con muestras de 1000 datos la respuesta anterior.
+
+Por el teorema central del límite, si `\(X_{1},X_{2},...,X_{10}\)` son v.a. i.i.d. con media `\(\mu\)` y varianza `\(\sigma^{2}\)` para `\(n\)` suficientemente grande `$$\frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}\rightarrow N(0,1)$$` Por lo tanto la v.a. `\(\frac{Y-1}{\frac{\sqrt{1/3}}{\sqrt{10}}}\)` debe seguir, aproximadamente, una ley Normal N(0,1). Para comprobarlo generaremos 1000 muestras, cada una de 10 valores que son realizaciones de una v.a. Uniforme U(0, 2) y las colocaremos en una matriz, que llamaremos muestras de dimensión 1000x10, es decir de 1000 filas y 10 columnas. Es decir cada fila tiene 10 elementos. Cada fila será una muestra de tamaño 10
+
+---
+
+# Inferencia estadística: El Teorema Central del Límite
+
+
+```r
+muestras&lt;-array(runif(10000,min=0,max=2),dim=c(1000,10))
+
+# Calculamos las medias de las filas con el comando rowMeans() y lo llamamos Y.
+Y&lt;-rowMeans(muestras)
+
+# El vector Y tiene 1000 valores, cada valor es la media de 10 valores generados de una distribución Uniforme U(0, 2).
+```
+
+Para verificar el teorema central del limite dibujamos el histogramas de la v.a. `\(Z=\frac{Y-1}{\frac{\sqrt{1/3}}{\sqrt{10}}}\)` junto a la función de densidad de una normal de media 1 y desviación típica 0.
+
+
+```r
+Z&lt;-(Y-1)/((sqrt(1/3))/(sqrt(10)))
+hist(Z,freq=F,col="green")
+x&lt;-seq(-3,3,0.1)
+lines(x,dnorm(x),col="blue")
+```
+
+---
+
+.pull-left[
+
+## Contacto:
+
+- Email: **jrcaro@uco.es** 
+
+- Dpto. Estadística, Econometría e I.O.
+
+  Edificio Albert Einstein, 2º Planta (despacho al final del pasillo)
+
+## Más info:
+
+https://github.com/jrcarob
+
+]
+
+.pull-left[
+
+## Contacto:
+
+Email: z52cabaj@uco.es
+
+Dpto. Estadística, Econometría e Investigación Operativa.
+
+Edificio Albert Einstein, 2º Planta (despacho al final del pasillo)
+
+
+## Más info:
+
+https://github.com/jrcarob
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
