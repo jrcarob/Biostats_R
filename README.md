@@ -1,3 +1,3 @@
-# Introducción a la Bioestadística con R para ciencias
+# <img src="uco_0.png" width="75"> Introducción a la Bioestadística con R para ciencias
 
 Este es un repositorio...
