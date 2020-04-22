@@ -107,7 +107,7 @@ R puede leer ficheros de texto (.txt), separados por comas (.csv) y de excel (.x
 
 **`read.table`** el archivo *EDADCI.txt* contiene datos separados por tabulador. Para leerlo:
 
-`datos <- read.table("EDADCI.txt", header = T, sep "")`
+`datos <- read.table("EDADCI.txt", header = T, sep = "")`
 
 
 .pull-left[
