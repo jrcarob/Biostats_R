@@ -5,3 +5,5 @@
 ![](https://img.shields.io/badge/Vers.-1.0-blue)
 
 Repositorio para la introducción a la estadística con R aplicado a las ciencias
+
+https://jrcarob.github.io/Biostats_R/
