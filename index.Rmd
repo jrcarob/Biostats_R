@@ -2,7 +2,7 @@
 title: "![](uco_0.png)<br/> Introducción a R Aplicado a la Bioestadística"
 subtitle: "1er Curso - Grado de Química <br/>https://github.com/jrcarob"
 author: "José Rafael Caro Barrera"
-date: "2º Cuatrimestre 2019/2020"
+date: "2º Cuatrimestre 2021/2022"
 
 output:
   xaringan::moon_reader:
